@@ -60,14 +60,14 @@ export default function Home() {
         .hero-inner {
           position: relative;
           width: 100%;
-          max-width: 500px; /* Constrained to keep the trophy anchored nicely */
+          max-width: 420px; /* Constrained smaller to reduce overall hero size */
           display: flex;
           flex-direction: column;
           align-items: center;
         }
         .we-rate-img {
           width: 100%;
-          max-width: 480px;
+          max-width: 380px; /* Reduced image size */
           height: auto;
           display: block;
         }
@@ -89,8 +89,8 @@ export default function Home() {
         /* ── TROPHY ── */
         .trophy-wrap {
           position: absolute;
-          right: -10px;
-          bottom: 0px; /* Anchored to bottom instead of top to avoid 'P' */
+          right: -20px;
+          bottom: 0px; 
           width: 90px;
           z-index: 2;
         }
@@ -118,7 +118,7 @@ export default function Home() {
           padding: 24px;
           font-size: 16px;
           line-height: 1.6;
-          text-align: center; /* Reverted back to standard text alignment */
+          text-align: center; 
           font-family: 'Inter', sans-serif;
         }
         .card strong { font-weight: 700; }
@@ -149,24 +149,21 @@ export default function Home() {
 
         /* ── BOTTOM STICKY AREA ── */
         .bottom-area {
-          flex-grow: 1; /* Pushes to the bottom of the 100vh container */
+          flex-grow: 1; 
           display: flex;
           flex-direction: column;
           justify-content: flex-end;
           position: relative;
-          margin-top: 60px;
+          margin-top: 100px; /* Big gap to push graphics far below cards */
           min-height: 250px;
         }
         .graphics-container {
           position: absolute;
           bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 100%;
-          max-width: 1000px;
+          left: 0;
+          width: 100%; /* Spans full width to prevent clipping */
           height: 100%;
           pointer-events: none;
-          /* overflow: hidden removed so Michael doesn't get cut off */
         }
         .cursor-img {
           position: absolute;
@@ -180,7 +177,7 @@ export default function Home() {
         .fire-img {
           position: absolute;
           bottom: -10px;
-          left: 10px;
+          left: 10%;
           width: 140px;
           height: auto;
           z-index: 2;
@@ -188,16 +185,16 @@ export default function Home() {
         .michael-img {
           position: absolute;
           bottom: 0;
-          right: 10px;
-          width: 200px;
+          right: 0; /* Anchored flush to the absolute right of screen */
+          width: 250px;
           height: auto;
-          z-index: 2;
+          z-index: 0; /* Placed behind the footer text just in case */
         }
 
         /* ── FOOTER ── */
         .footer {
           position: relative;
-          z-index: 10; /* Keep text above the graphics */
+          z-index: 10; 
           text-align: center;
           font-size: 14px;
           color: #999;
@@ -215,7 +212,11 @@ export default function Home() {
           .nav-logo { width: 100px; }
           .roast-btn-img { height: 40px; }
           .card { font-size: 14px; padding: 20px 18px; }
-          .we-rate-img { max-width: 100%; }
+          .hero-inner { max-width: 100%; }
+          .we-rate-img { max-width: 300px; }
+          .fire-img { left: -10px; }
+          .michael-img { width: 180px; }
+          .trophy-wrap { right: 0px; width: 70px; }
         }
 
         @media (min-width: 768px) {
@@ -223,16 +224,15 @@ export default function Home() {
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
           }
-          .arrow-row { padding-left: 60px; }
+          .arrow-row { padding-left: 40px; }
           .trophy-wrap {
-            right: -60px;
+            right: -50px;
             bottom: -10px;
-            width: 120px;
+            width: 100px;
           }
-          .we-rate-img { max-width: 500px; }
-          .cursor-img { width: 120px; }
-          .fire-img { width: 200px; left: 40px; }
-          .michael-img { width: 300px; right: 40px; }
+          .cursor-img { width: 100px; }
+          .fire-img { width: 180px; left: 15%; }
+          .michael-img { width: 280px; }
         }
       `}</style>
 
@@ -267,22 +267,17 @@ export default function Home() {
         {/* ── CARDS & SOCIALS ── */}
         <div className="cards-container">
           <div className="cards">
+            {/* Hard <br /> tags removed to let CSS Grid naturally wrap the text */}
             <div className="card">
-              Early-stage tech founders are often invisible,<br />
-              their products lost in an <em>insider echo chamber,</em><br />
-              away from the users who&apos;d actually love them.
+              Early-stage tech founders are often invisible, their products lost in an <em>insider echo chamber,</em> away from the users who&apos;d actually love them.
             </div>
 
             <div className="card" style={{ background: "#1a1aff" }}>
-              <strong>Shy Combinator</strong> started as a parody,<br />
-              built by two friends who admired Silicon Valley<br />
-              innovation from the other side of the world.
+              <strong>Shy Combinator</strong> started as a parody, built by two friends who admired Silicon Valley innovation from the other side of the world.
             </div>
 
             <div className="card">
-              We celebrate the builders, cut through the jargon, and
-              give new tech the honest spotlight it deserves, because{" "}
-              <em>great inventors shouldn&apos;t shy out from the world.</em>
+              We celebrate the builders, cut through the jargon, and give new tech the honest spotlight it deserves, because <em>great inventors shouldn&apos;t shy out from the world.</em>
             </div>
           </div>
 
