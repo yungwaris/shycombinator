@@ -290,7 +290,7 @@ export default function TruthSerum() {
           top: 50%;
           transform: translateY(-50%);
           white-space: nowrap;
-          flex-direction: row-reverse; /* Put text on left of arrow */
+          flex-direction: row-reverse; 
         }
 
         /* ── BUTTON ── */
@@ -363,12 +363,23 @@ export default function TruthSerum() {
         }
 
         /* ── BOTTOM STICKY AREA ── */
+        .bottom-area {
+          flex-grow: 1; 
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: center; /* Centers elements inside */
+          position: relative;
+          margin-top: 60px; 
+          min-height: 250px;
+        }
+        
         .socials {
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 16px;
-          margin-bottom: 20px;
+          margin-bottom: 20px; /* Space between icons and cursor */
           position: relative;
           z-index: 10;
         }
@@ -387,33 +398,15 @@ export default function TruthSerum() {
         .social-icon:hover { background: #0000ff; }
         .social-icon svg { width: 22px; height: 22px; fill: white; }
 
-        .bottom-area {
-          flex-grow: 1; 
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          position: relative;
-          margin-top: 60px; 
-          min-height: 250px;
-        }
-        .graphics-container {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%; 
-          height: 100%;
-          pointer-events: none;
-        }
         .cursor-img {
-          position: absolute;
-          top: -30px; 
-          left: 50%;
-          transform: translateX(-50%);
-          width: 220px; 
+          width: 160px; /* Base size */
           height: auto;
-          z-index: 3;
           display: block;
+          margin-bottom: 20px; /* Space between cursor and footer */
+          position: relative;
+          z-index: 3;
         }
+        
         .fire-img {
           position: absolute;
           bottom: -10px;
@@ -422,6 +415,7 @@ export default function TruthSerum() {
           height: auto;
           z-index: 2;
           display: block;
+          pointer-events: none;
         }
 
         /* ── FOOTER ── */
@@ -464,15 +458,16 @@ export default function TruthSerum() {
             margin-bottom: 8px;
             justify-content: flex-start;
           }
-          .label-right svg, .label-left svg { display: none; } /* Hide arrows on mobile */
+          .label-right svg, .label-left svg { display: none; } 
           .input-row { flex-direction: column; align-items: flex-start; }
-          .syringe-img { display: none; } /* Hide syringe to avoid breaking mobile width */
+          .syringe-img { display: none; } 
           .headline { font-size: 20px; }
           .nav { padding: 24px 20px 0; }
           .nav-logo, .truth-logo { height: 40px; }
         }
 
         @media (min-width: 768px) {
+          .cursor-img { width: 220px; } /* Scales up for desktop */
           .fire-img { width: 180px; left: 15%; }
         }
       `}</style>
@@ -482,13 +477,13 @@ export default function TruthSerum() {
         <a href="/">
           <img src="/ShyCombintorLogo.png" alt="Shy Combinator" className="nav-logo" />
         </a>
-        <img src="/truthserum_button.png" alt="Truth Serum" className="truth-logo" />
+        <img src="/truthserum.png" alt="Truth Serum" className="truth-logo" />
       </nav>
 
       {/* ── MAIN CONTENT ── */}
       <div className="content-wrapper">
         
-        {/* VIEW 1: FORM (Only show if not loading and no results) */}
+        {/* VIEW 1: FORM */}
         {!loading && !results && (
           <>
             <h1 className="headline">
@@ -499,10 +494,8 @@ export default function TruthSerum() {
 
             <form onSubmit={handleAnalyze} noValidate className="form-container">
               
-              {/* Syringe Graphic (Desktop only) */}
               <img src="/syringe.png" alt="Syringe" className="syringe-img" />
 
-              {/* Email Input */}
               <div className="input-row w-full">
                 <input
                   type="email"
@@ -526,7 +519,6 @@ export default function TruthSerum() {
                 </p>
               )}
 
-              {/* URL Input */}
               <div className="input-row w-full">
                 <input
                   type="url"
@@ -550,14 +542,12 @@ export default function TruthSerum() {
                 </p>
               )}
 
-              {/* Global Error */}
               {errorMsg && (
                 <div className="text-[13px] text-red-500 dc-font-mono mt-2 bg-red-50 p-2 border border-red-200 rounded">
                   {errorMsg}
                 </div>
               )}
 
-              {/* Submit */}
               <button type="submit" disabled={loading} className="submit-btn">
                 <img src="/analyze-button.png" alt="Analyze" />
               </button>
@@ -625,15 +615,15 @@ export default function TruthSerum() {
           </a>
         </div>
 
-        <div className="graphics-container">
-          <img src="/cursor.png" alt="" className="cursor-img" />
-          <img src="/fire.png" alt="" className="fire-img" />
-        </div>
+        <img src="/cursor.png" alt="" className="cursor-img" />
         
         <div className="footer">
           <img src="/dabloo_logo.png" alt="Dabloo Studios" className="footer-logo" />
           © 2026 Dabloo Studios. All rights reserved.
         </div>
+        
+        {/* Decorative absolute element */}
+        <img src="/fire.png" alt="" className="fire-img" />
       </div>
 
     </main>
