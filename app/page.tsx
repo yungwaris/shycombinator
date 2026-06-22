@@ -9,7 +9,7 @@ export default function Home() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;0,900;1,700;1,900&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: white; }
+        body { font-family: 'Inter', sans-serif; background: white; min-height: 100vh; }
 
         /* ── ROOT CONTAINER ── */
         .landing-root {
@@ -26,8 +26,8 @@ export default function Home() {
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
-          padding: 32px 40px 0; /* Pushed further out to corners */
-          max-width: 100%; /* Let it span the full screen width */
+          padding: 32px 40px 0; 
+          max-width: 100%; 
           width: 100%;
           margin: 0 auto;
         }
@@ -89,14 +89,15 @@ export default function Home() {
         /* ── TROPHY ── */
         .trophy-wrap {
           position: absolute;
-          right: -20px;
-          bottom: 0px; 
-          width: 90px;
+          right: -30px;
+          bottom: -15px; 
+          width: 120px; /* Scaled up */
           z-index: 2;
         }
         .trophy-wrap img {
           width: 100%;
           height: auto;
+          display: block;
         }
 
         /* ── CARDS ── */
@@ -167,12 +168,13 @@ export default function Home() {
         }
         .cursor-img {
           position: absolute;
-          top: 0px;
+          top: -40px; /* Pulled up to accommodate the new 2x size */
           left: 50%;
           transform: translateX(-50%);
-          width: 90px;
+          width: 180px; /* 2x size for mobile */
           height: auto;
           z-index: 3;
+          display: block;
         }
         .fire-img {
           position: absolute;
@@ -181,14 +183,16 @@ export default function Home() {
           width: 140px;
           height: auto;
           z-index: 2;
+          display: block;
         }
         .michael-img {
           position: absolute;
-          bottom: 0;
+          bottom: -2px; /* Pulls slightly below the edge to kill any baseline gap */
           right: 0; 
-          width: 150px; /* Base size reduced */
+          width: 150px; 
           height: auto;
           z-index: 0; 
+          display: block; /* Forces block rendering to kill inline descender gaps */
         }
 
         /* ── FOOTER ── */
@@ -216,8 +220,8 @@ export default function Home() {
           .hero-inner { max-width: 100%; }
           .we-rate-img { max-width: 300px; }
           .fire-img { left: -10px; }
-          .michael-img { width: 120px; } /* Scaled down further for mobile */
-          .trophy-wrap { right: 0px; width: 70px; }
+          .michael-img { width: 120px; } 
+          .trophy-wrap { right: -10px; width: 100px; }
         }
 
         @media (min-width: 768px) {
@@ -227,13 +231,16 @@ export default function Home() {
           }
           .arrow-row { padding-left: 40px; }
           .trophy-wrap {
-            right: -50px;
-            bottom: -10px;
-            width: 100px;
+            right: -60px;
+            bottom: -20px;
+            width: 160px; /* Scaled up for desktop */
           }
-          .cursor-img { width: 100px; }
+          .cursor-img { 
+            width: 220px; /* 2x size for desktop */
+            top: -60px; 
+          }
           .fire-img { width: 180px; left: 15%; }
-          .michael-img { width: 220px; } /* Desktop scaled down */
+          .michael-img { width: 220px; } 
         }
       `}</style>
 
