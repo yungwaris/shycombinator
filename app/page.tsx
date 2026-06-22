@@ -13,7 +13,7 @@ export default function Home() {
 
         /* ── ROOT CONTAINER ── */
         .landing-root {
-          max-width: 480px;
+          max-width: 1200px;
           width: 100%;
           margin: 0 auto;
           min-height: 100vh;
@@ -27,10 +27,10 @@ export default function Home() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 20px 20px 0;
+          padding: 24px 5% 0;
         }
         .nav-logo {
-          width: 120px;
+          width: 140px;
           height: auto;
         }
         .roast-btn-wrap {
@@ -38,7 +38,7 @@ export default function Home() {
           text-decoration: none;
         }
         .roast-btn-img {
-          height: 44px;
+          height: 48px;
           width: auto;
           display: block;
           transition: transform 0.15s, filter 0.15s;
@@ -50,12 +50,23 @@ export default function Home() {
 
         /* ── HERO ── */
         .hero {
-          padding: 32px 20px 0;
+          padding: 40px 5% 0;
           position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .hero-inner {
+          position: relative;
+          width: 100%;
+          max-width: 600px; /* Keeps the composition tight and centered */
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
         .we-rate-img {
           width: 100%;
-          max-width: 440px;
+          max-width: 480px;
           height: auto;
           display: block;
         }
@@ -64,7 +75,9 @@ export default function Home() {
         .arrow-row {
           display: flex;
           justify-content: flex-start;
-          padding: 4px 0 0 24px;
+          width: 100%;
+          max-width: 480px; 
+          padding: 10px 0 0 40px;
         }
         .arrow-img {
           width: 80px;
@@ -75,9 +88,9 @@ export default function Home() {
         /* ── TROPHY ── */
         .trophy-wrap {
           position: absolute;
-          right: 12px;
-          top: 100px;
-          width: 100px;
+          right: -20px;
+          top: 60px;
+          width: 120px;
           z-index: 2;
         }
         .trophy-wrap img {
@@ -87,11 +100,11 @@ export default function Home() {
 
         /* ── CARDS ── */
         .cards {
-          padding: 0 16px;
-          margin-top: 12px;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
+          padding: 0 5%;
+          margin-top: 40px;
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 16px;
           position: relative;
           z-index: 1;
         }
@@ -99,11 +112,14 @@ export default function Home() {
           border-radius: 16px;
           background: #0000ff;
           color: white;
-          padding: 20px 22px;
-          font-size: 15px;
+          padding: 24px;
+          font-size: 16px;
           line-height: 1.6;
           text-align: center;
           font-family: 'Inter', sans-serif;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         .card strong { font-weight: 700; }
         .card em { font-style: italic; font-weight: 700; }
@@ -113,13 +129,13 @@ export default function Home() {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 16px;
-          margin-top: 36px;
+          gap: 20px;
+          margin-top: 48px;
         }
         .social-icon {
-          width: 44px;
-          height: 44px;
-          border-radius: 10px;
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
           background: #888;
           display: flex;
           align-items: center;
@@ -129,37 +145,38 @@ export default function Home() {
           transition: background 0.15s;
         }
         .social-icon:hover { background: #0000ff; }
-        .social-icon svg { width: 22px; height: 22px; fill: white; }
+        .social-icon svg { width: 24px; height: 24px; fill: white; }
 
         /* ── BOTTOM SECTION ── */
         .bottom-wrap {
           position: relative;
-          margin-top: 28px;
-          height: 260px;
+          margin: 40px auto 0;
+          height: 300px;
+          max-width: 800px;
           overflow: hidden;
         }
         .cursor-img {
           position: absolute;
           left: 50%;
-          top: 0px;
+          top: 20px;
           transform: translateX(-50%);
-          width: 110px;
+          width: 120px;
           height: auto;
           z-index: 3;
         }
         .fire-img {
           position: absolute;
           bottom: -10px;
-          left: -10px;
-          width: 170px;
+          left: 0px;
+          width: 180px;
           height: auto;
           z-index: 2;
         }
         .michael-img {
           position: absolute;
           bottom: 0;
-          right: -10px;
-          width: 200px;
+          right: 0px;
+          width: 240px;
           height: auto;
           z-index: 2;
           object-fit: contain;
@@ -169,34 +186,46 @@ export default function Home() {
         /* ── FOOTER ── */
         .footer {
           text-align: center;
-          font-size: 12px;
+          font-size: 14px;
           color: #999;
-          padding: 12px 20px 28px;
+          padding: 20px 20px 40px;
         }
         .footer-logo {
-          width: 72px;
+          width: 80px;
           height: auto;
           display: block;
-          margin: 0 auto 6px;
+          margin: 0 auto 10px;
         }
 
         /* ── RESPONSIVE ── */
-        @media (max-width: 380px) {
-          .nav-logo { width: 95px; }
-          .roast-btn-img { height: 38px; }
+        @media (max-width: 480px) {
+          .nav-logo { width: 100px; }
+          .roast-btn-img { height: 40px; }
           .card { font-size: 14px; padding: 16px 18px; }
-          .cursor-img { width: 88px; }
-          .michael-img { width: 160px; }
-          .trophy-wrap { width: 80px; right: 8px; top: 90px; }
+          .cursor-img { width: 90px; }
+          .fire-img { width: 140px; left: -10px; }
+          .michael-img { width: 180px; right: -10px; }
+          .trophy-wrap { width: 90px; right: 0; top: 80px; }
           .we-rate-img { max-width: 100%; }
+          .arrow-row { padding-left: 20px; }
         }
 
-        @media (min-width: 480px) {
-          .landing-root { max-width: 520px; }
-          .we-rate-img { max-width: 480px; }
-          .card { font-size: 16px; }
-          .cursor-img { width: 120px; }
-          .michael-img { width: 220px; }
+        @media (min-width: 768px) {
+          .cards {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+          }
+          .trophy-wrap {
+            right: -60px;
+            top: 40px;
+            width: 140px;
+          }
+          .we-rate-img { max-width: 560px; }
+          .arrow-row { max-width: 560px; padding-left: 60px; }
+          .bottom-wrap { height: 350px; }
+          .cursor-img { width: 140px; }
+          .fire-img { width: 220px; left: 40px; }
+          .michael-img { width: 300px; right: 40px; }
         }
       `}</style>
 
@@ -212,17 +241,19 @@ export default function Home() {
 
         {/* ── HERO ── */}
         <section className="hero">
-          {/* "we rate our product hunt finds X/10" as image */}
-          <img src="/we_rate.png" alt="we rate our product hunt finds" className="we-rate-img" />
+          <div className="hero-inner">
+            {/* "we rate our product hunt finds X/10" as image */}
+            <img src="/we_rate.png" alt="we rate our product hunt finds" className="we-rate-img" />
 
-          {/* Curved arrow */}
-          <div className="arrow-row">
-            <img src="/arrow1.png" alt="" className="arrow-img" />
-          </div>
+            {/* Curved arrow */}
+            <div className="arrow-row">
+              <img src="/arrow1.png" alt="" className="arrow-img" />
+            </div>
 
-          {/* Trophy — floats right */}
-          <div className="trophy-wrap">
-            <img src="/trophy.png" alt="Trophy" />
+            {/* Trophy — floats right */}
+            <div className="trophy-wrap">
+              <img src="/trophy.png" alt="Trophy" />
+            </div>
           </div>
         </section>
 
