@@ -18,9 +18,9 @@ const loadingPhrases = [
 const PROGRESS_STAGES = [
   { label: "Downloading video...",     target: 22,  duration: 8000  },
   { label: "Compressing...",           target: 38,  duration: 5000  },
-  { label: "Uploading to Gemini...",   target: 55,  duration: 8000  },
-  { label: "Processing video...",      target: 72,  duration: 10000 },
-  { label: "Generating roast...",      target: 90,  duration: 12000 },
+  { label: "Sending to the lab...",   target: 55,  duration: 8000  },
+  { label: "Pouring the binary potion...",      target: 72,  duration: 10000 },
+  { label: "Preparing the Truth Serum...",      target: 90,  duration: 12000 },
   { label: "Almost there...",          target: 97,  duration: 8000  },
 ];
 
