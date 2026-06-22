@@ -188,11 +188,16 @@ export default function TruthSerum() {
   };
 
   return (
-    <main className="min-h-screen bg-white font-sans overflow-x-hidden flex flex-col">
+    <main className="min-h-[100dvh] bg-white font-sans flex flex-col">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&family=Space+Mono:wght@400;700&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: white; min-height: 100vh; }
+        html, body { 
+  font-family: 'Inter', sans-serif; 
+  background: white; 
+  min-height: 100dvh; 
+  overflow-x: hidden; 
+}
         
         .dc-font-mono { font-family: 'Space Mono', monospace; }
 
