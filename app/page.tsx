@@ -1,212 +1,232 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 
 export default function Home() {
-  const [displayNum, setDisplayNum] = useState("?");
-  const [settled, setSettled] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    // Cycle through random numbers rapidly, then settle
-    let count = 0;
-    const total = 18; // spins before settling
-    intervalRef.current = setInterval(() => {
-      setDisplayNum(String(Math.floor(Math.random() * 10) + 1));
-      count++;
-      if (count >= total) {
-        clearInterval(intervalRef.current!);
-        setDisplayNum("7");
-        setSettled(true);
-        // restart cycle after 3s pause
-        timeoutRef.current = setTimeout(() => {
-          setSettled(false);
-          count = 0;
-          intervalRef.current = setInterval(() => {
-            setDisplayNum(String(Math.floor(Math.random() * 10) + 1));
-            count++;
-            if (count >= total) {
-              clearInterval(intervalRef.current!);
-              setDisplayNum(String(Math.floor(Math.random() * 10) + 1));
-              setSettled(true);
-            }
-          }, 80);
-        }, 3000);
-      }
-    }, 80);
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, []);
 
   return (
     <main className="min-h-screen bg-white font-sans overflow-x-hidden">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;0,900;1,700;1,900&display=swap');
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background: white; }
 
-        .landing-root { max-width: 430px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 80px; }
-
-        /* NAV */
-        .nav { display: flex; align-items: center; justify-content: space-between; padding: 24px 20px 0; }
-        .nav-logo { width: 90px; }
-        .roast-btn {
-          font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
-          text-transform: uppercase; border: 2px solid #111; border-radius: 6px;
-          padding: 8px 18px; background: white; color: #111; cursor: pointer;
-          text-decoration: none; transition: background 0.15s, color 0.15s;
+        /* ── ROOT CONTAINER ── */
+        .landing-root {
+          max-width: 480px;
+          width: 100%;
+          margin: 0 auto;
+          min-height: 100vh;
+          position: relative;
+          padding-bottom: 0;
+          overflow-x: hidden;
         }
-        .roast-btn:hover { background: #0000ff; color: white; border-color: #0000ff; }
 
-        /* HERO */
-        .hero { padding: 48px 20px 0; position: relative; }
-        .hero-text {
-          font-size: 48px; font-weight: 900; line-height: 1.05;
-          letter-spacing: -0.03em; color: #111; position: relative; z-index: 2;
+        /* ── NAV ── */
+        .nav {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 20px 20px 0;
         }
-        .hero-text em { font-style: italic; }
-
-        .ph-badge {
-          position: absolute; top: 44px; right: 16px;
-          width: 64px; height: 64px; border-radius: 50%;
-          overflow: hidden; z-index: 3;
+        .nav-logo {
+          width: 120px;
+          height: auto;
         }
-        .ph-badge img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* SCORE BOX */
-        .score-row { display: flex; align-items: center; gap: 0; margin-top: 6px; flex-wrap: nowrap; }
-        .score-box {
-          display: inline-flex; align-items: center; gap: 4px;
-          border: 2px dashed #aaa; border-radius: 6px;
-          padding: 4px 14px; margin-left: 10px;
-          font-size: 48px; font-weight: 900; letter-spacing: -0.03em; color: #111;
-          background: white; position: relative; overflow: hidden;
-          min-width: 110px; justify-content: center;
+        .roast-btn-wrap {
+          display: block;
+          text-decoration: none;
         }
-        .score-num {
-          display: inline-block;
-          transition: opacity 0.06s;
-          filter: ${settled ? "none" : "blur(3px)"};
-          opacity: ${settled ? "1" : "0.7"};
-          min-width: 28px; text-align: center;
+        .roast-btn-img {
+          height: 44px;
+          width: auto;
+          display: block;
+          transition: transform 0.15s, filter 0.15s;
         }
-        .score-slash { font-size: 48px; font-weight: 900; color: #111; }
+        .roast-btn-img:hover {
+          transform: scale(1.04);
+          filter: brightness(1.1);
+        }
 
-        /* ARROW */
-        .arrow-row { display: flex; justify-content: flex-start; padding: 8px 20px 0 28px; }
-        .arrow-svg { width: 70px; opacity: 0.75; }
+        /* ── HERO ── */
+        .hero {
+          padding: 32px 20px 0;
+          position: relative;
+        }
+        .we-rate-img {
+          width: 100%;
+          max-width: 440px;
+          height: auto;
+          display: block;
+        }
 
-        /* TROPHY */
+        /* ── ARROW ── */
+        .arrow-row {
+          display: flex;
+          justify-content: flex-start;
+          padding: 4px 0 0 24px;
+        }
+        .arrow-img {
+          width: 80px;
+          height: auto;
+          display: block;
+        }
+
+        /* ── TROPHY ── */
         .trophy-wrap {
-          position: absolute; right: 10px; top: 0;
-          width: 110px; z-index: 2;
+          position: absolute;
+          right: 12px;
+          top: 100px;
+          width: 100px;
+          z-index: 2;
         }
-        .trophy-wrap img { width: 100%; }
+        .trophy-wrap img {
+          width: 100%;
+          height: auto;
+        }
 
-        /* CARDS */
-        .cards { padding: 0 20px; margin-top: 16px; display: flex; flex-direction: column; gap: 12px; position: relative; }
-
+        /* ── CARDS ── */
+        .cards {
+          padding: 0 16px;
+          margin-top: 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          position: relative;
+          z-index: 1;
+        }
         .card {
-          border-radius: 16px; background: #0000ff;
-          color: white; padding: 20px 22px;
-          font-size: 15px; line-height: 1.55; text-align: center;
+          border-radius: 16px;
+          background: #0000ff;
+          color: white;
+          padding: 20px 22px;
+          font-size: 15px;
+          line-height: 1.6;
+          text-align: center;
+          font-family: 'Inter', sans-serif;
         }
         .card strong { font-weight: 700; }
         .card em { font-style: italic; font-weight: 700; }
 
-        /* SOCIALS */
-        .socials { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 40px; }
+        /* ── SOCIALS ── */
+        .socials {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          margin-top: 36px;
+        }
         .social-icon {
-          width: 44px; height: 44px; border-radius: 10px;
-          background: #888; display: flex; align-items: center; justify-content: center;
-          color: white; text-decoration: none; transition: background 0.15s;
-          font-size: 20px;
+          width: 44px;
+          height: 44px;
+          border-radius: 10px;
+          background: #888;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          text-decoration: none;
+          transition: background 0.15s;
         }
         .social-icon:hover { background: #0000ff; }
         .social-icon svg { width: 22px; height: 22px; fill: white; }
 
-        /* CURSOR + FIRE */
+        /* ── BOTTOM SECTION ── */
         .bottom-wrap {
-          position: relative; margin-top: 32px; height: 200px; overflow: hidden;
+          position: relative;
+          margin-top: 28px;
+          height: 260px;
+          overflow: hidden;
         }
         .cursor-img {
-          position: absolute; left: 50%; top: 10px;
-          transform: translateX(-20px);
-          width: 80px; z-index: 3;
+          position: absolute;
+          left: 50%;
+          top: 0px;
+          transform: translateX(-50%);
+          width: 110px;
+          height: auto;
+          z-index: 3;
         }
         .fire-img {
-          position: absolute; bottom: -20px; left: -10px;
-          width: 180px; z-index: 2;
+          position: absolute;
+          bottom: -10px;
+          left: -10px;
+          width: 170px;
+          height: auto;
+          z-index: 2;
+        }
+        .michael-img {
+          position: absolute;
+          bottom: 0;
+          right: -10px;
+          width: 200px;
+          height: auto;
+          z-index: 2;
+          object-fit: contain;
+          object-position: bottom;
         }
 
-        /* FOOTER */
+        /* ── FOOTER ── */
         .footer {
-          text-align: center; font-size: 12px; color: #999;
-          padding: 0 20px 24px; margin-top: 16px;
+          text-align: center;
+          font-size: 12px;
+          color: #999;
+          padding: 12px 20px 28px;
+        }
+        .footer-logo {
+          width: 72px;
+          height: auto;
+          display: block;
+          margin: 0 auto 6px;
         }
 
-        @media (min-width: 500px) {
-          .landing-root { max-width: 500px; }
-          .hero-text { font-size: 52px; }
-          .score-box { font-size: 52px; }
+        /* ── RESPONSIVE ── */
+        @media (max-width: 380px) {
+          .nav-logo { width: 95px; }
+          .roast-btn-img { height: 38px; }
+          .card { font-size: 14px; padding: 16px 18px; }
+          .cursor-img { width: 88px; }
+          .michael-img { width: 160px; }
+          .trophy-wrap { width: 80px; right: 8px; top: 90px; }
+          .we-rate-img { max-width: 100%; }
+        }
+
+        @media (min-width: 480px) {
+          .landing-root { max-width: 520px; }
+          .we-rate-img { max-width: 480px; }
+          .card { font-size: 16px; }
+          .cursor-img { width: 120px; }
+          .michael-img { width: 220px; }
         }
       `}</style>
 
       <div className="landing-root">
 
-        {/* NAV */}
+        {/* ── NAV ── */}
         <nav className="nav">
           <img src="/ShyCombintorLogo.png" alt="Shy Combinator" className="nav-logo" />
-          <Link href="/truth-serum" className="roast-btn">Roast Me</Link>
+          <a href="http://shycombinator.co/truth-serum/" className="roast-btn-wrap">
+            <img src="/truthserum_button.png" alt="Truth Serum" className="roast-btn-img" />
+          </a>
         </nav>
 
-        {/* HERO */}
+        {/* ── HERO ── */}
         <section className="hero">
-          <div className="ph-badge">
-            <img src="/product-hunt-logo-icon_2.png" alt="Product Hunt" />
-          </div>
+          {/* "we rate our product hunt finds X/10" as image */}
+          <img src="/we_rate.png" alt="we rate our product hunt finds" className="we-rate-img" />
 
-          <h1 className="hero-text">
-            we <em>rate</em> our<br />
-            product hunt<br />
-            <span style={{ display: "flex", alignItems: "center", gap: "0px", flexWrap: "nowrap" }}>
-              finds
-              <span className="score-box">
-                <span
-                  className="score-num"
-                  style={{
-                    filter: settled ? "none" : "blur(3px)",
-                    opacity: settled ? 1 : 0.6,
-                    transition: "filter 0.15s, opacity 0.15s",
-                  }}
-                >
-                  {displayNum}
-                </span>
-                <span className="score-slash">/10</span>
-              </span>
-            </span>
-          </h1>
-
-          {/* Curved arrow pointing down-left */}
+          {/* Curved arrow */}
           <div className="arrow-row">
-            <svg className="arrow-svg" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 8 C10 8, 60 10, 65 50" stroke="#111" strokeWidth="2" fill="none" strokeLinecap="round"/>
-              <path d="M58 44 L65 50 L60 42" stroke="#111" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <img src="/arrow1.png" alt="" className="arrow-img" />
           </div>
 
-          {/* Trophy — floats right, overlapping hero and cards */}
-          <div className="trophy-wrap" style={{ top: "110px" }}>
+          {/* Trophy — floats right */}
+          <div className="trophy-wrap">
             <img src="/trophy.png" alt="Trophy" />
           </div>
         </section>
 
-        {/* CARDS */}
+        {/* ── CARDS ── */}
         <div className="cards">
           <div className="card">
             Early-stage tech founders are often invisible,<br />
@@ -227,7 +247,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* SOCIAL ICONS */}
+        {/* ── SOCIAL ICONS ── */}
         <div className="socials">
           {/* X */}
           <a href="https://x.com/shycombinator" target="_blank" rel="noopener noreferrer" className="social-icon">
@@ -249,14 +269,19 @@ export default function Home() {
           </a>
         </div>
 
-        {/* CURSOR + FIRE */}
+        {/* ── CURSOR + FIRE + MICHAEL ── */}
         <div className="bottom-wrap">
           <img src="/cursor.png" alt="" className="cursor-img" />
           <img src="/fire.png" alt="" className="fire-img" />
+          <img src="/MichaelShyComb.png" alt="" className="michael-img" />
         </div>
 
-        {/* FOOTER */}
-        <div className="footer">© 2026 Dabloo Studios. All rights reserved.</div>
+        {/* ── FOOTER ── */}
+        <div className="footer">
+          <img src="/dabloo_logo.png" alt="Dabloo Studios" className="footer-logo" />
+          © 2026 Dabloo Studios. All rights reserved.
+        </div>
+
       </div>
     </main>
   );
