@@ -196,7 +196,8 @@ export default function TruthSerum() {
   font-family: 'Inter', sans-serif; 
   background: white; 
   min-height: 100dvh; 
-  overflow-x: hidden; 
+  overflow-x: clip; 
+  touch-action: pan-y;
 }
         
         .dc-font-mono { font-family: 'Space Mono', monospace; }
