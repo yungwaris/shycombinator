@@ -24,10 +24,10 @@ export default function Home() {
         /* ── NAV ── */
         .nav {
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: space-between;
-          padding: 24px 5% 0;
-          max-width: 1200px;
+          padding: 32px 40px 0; /* Pushed further out to corners */
+          max-width: 100%; /* Let it span the full screen width */
           width: 100%;
           margin: 0 auto;
         }
@@ -60,14 +60,14 @@ export default function Home() {
         .hero-inner {
           position: relative;
           width: 100%;
-          max-width: 420px; /* Constrained smaller to reduce overall hero size */
+          max-width: 420px; 
           display: flex;
           flex-direction: column;
           align-items: center;
         }
         .we-rate-img {
           width: 100%;
-          max-width: 380px; /* Reduced image size */
+          max-width: 380px; 
           height: auto;
           display: block;
         }
@@ -154,14 +154,14 @@ export default function Home() {
           flex-direction: column;
           justify-content: flex-end;
           position: relative;
-          margin-top: 100px; /* Big gap to push graphics far below cards */
+          margin-top: 100px; 
           min-height: 250px;
         }
         .graphics-container {
           position: absolute;
           bottom: 0;
           left: 0;
-          width: 100%; /* Spans full width to prevent clipping */
+          width: 100%; 
           height: 100%;
           pointer-events: none;
         }
@@ -185,10 +185,10 @@ export default function Home() {
         .michael-img {
           position: absolute;
           bottom: 0;
-          right: 0; /* Anchored flush to the absolute right of screen */
-          width: 250px;
+          right: 0; 
+          width: 150px; /* Base size reduced */
           height: auto;
-          z-index: 0; /* Placed behind the footer text just in case */
+          z-index: 0; 
         }
 
         /* ── FOOTER ── */
@@ -209,13 +209,14 @@ export default function Home() {
 
         /* ── RESPONSIVE ── */
         @media (max-width: 480px) {
+          .nav { padding: 24px 20px 0; }
           .nav-logo { width: 100px; }
           .roast-btn-img { height: 40px; }
           .card { font-size: 14px; padding: 20px 18px; }
           .hero-inner { max-width: 100%; }
           .we-rate-img { max-width: 300px; }
           .fire-img { left: -10px; }
-          .michael-img { width: 180px; }
+          .michael-img { width: 120px; } /* Scaled down further for mobile */
           .trophy-wrap { right: 0px; width: 70px; }
         }
 
@@ -232,7 +233,7 @@ export default function Home() {
           }
           .cursor-img { width: 100px; }
           .fire-img { width: 180px; left: 15%; }
-          .michael-img { width: 280px; }
+          .michael-img { width: 220px; } /* Desktop scaled down */
         }
       `}</style>
 
@@ -267,7 +268,6 @@ export default function Home() {
         {/* ── CARDS & SOCIALS ── */}
         <div className="cards-container">
           <div className="cards">
-            {/* Hard <br /> tags removed to let CSS Grid naturally wrap the text */}
             <div className="card">
               Early-stage tech founders are often invisible, their products lost in an <em>insider echo chamber,</em> away from the users who&apos;d actually love them.
             </div>
