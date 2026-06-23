@@ -192,13 +192,14 @@ export default function TruthSerum() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&family=Space+Mono:wght@400;700&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
         html, body { 
-  font-family: 'Inter', sans-serif; 
-  background: white; 
-  min-height: 100dvh; 
-  overflow-x: clip; 
-  touch-action: pan-y;
-}
+          font-family: 'Inter', sans-serif; 
+          background: white; 
+          min-height: 100dvh; 
+          overflow-x: clip; 
+          touch-action: pan-y;
+        }
         
         .dc-font-mono { font-family: 'Space Mono', monospace; }
 
@@ -362,11 +363,6 @@ export default function TruthSerum() {
           line-height: 1.5;
           margin-bottom: 20px;
         }
-        .brawl-graham-img {
-          height: 80px;
-          width: auto;
-          margin: 0 auto;
-        }
 
         /* ── BOTTOM STICKY AREA ── */
         .bottom-area {
@@ -464,9 +460,22 @@ export default function TruthSerum() {
             margin-bottom: 8px;
             justify-content: flex-start;
           }
-          .label-right svg, .label-left svg { display: none; } 
+          .label-right svg, .label-left svg { 
+            display: block; 
+            width: 24px; 
+            height: auto; 
+          } 
+          .label-left {
+            flex-direction: row !important; 
+          }
           .input-row { flex-direction: column; align-items: flex-start; }
-          .syringe-img { display: none; } 
+          .syringe-img { 
+            display: block; 
+            width: 60px; 
+            right: 0; 
+            top: -20px; 
+            z-index: -1; 
+          } 
           .headline { font-size: 20px; }
           .nav { padding: 24px 20px 0; }
           .nav-logo, .truth-logo { height: 40px; }
@@ -594,7 +603,13 @@ export default function TruthSerum() {
               <p className="quote-text">
                 "If we've learned one thing from funding so many startups, it's that they succeed or fail based on the quality of their launch film."
               </p>
-              <img src="/brawl_graham.png" alt="Brawl Graham" className="brawl-graham-img" />
+              <div className="flex items-center justify-center gap-2 mt-4">
+                <div className="flex flex-col items-end">
+                  <span className="text-[#0000ff] font-bold text-[16px] leading-none tracking-tight">Brawl Graham</span>
+                  <span className="text-[#0000ff] font-bold text-[11px] leading-tight">Advisor, Shy Combinator</span>
+                </div>
+                <img src="/brawl_graham.png" alt="Brawl Graham" className="h-[60px] w-auto" />
+              </div>
             </div>
           </>
         )}
@@ -624,7 +639,10 @@ export default function TruthSerum() {
         <img src="/cursor.png" alt="" className="cursor-img" />
         
         <div className="footer">
-          <img src="/dabloo_logo.png" alt="Dabloo Studios" className="footer-logo" />
+          <a href="https://dabloo.in" target="_blank" rel="noopener noreferrer" className="inline-block hover:scale-105 transition-transform duration-150">
+            <img src="/dabloo_logo.png" alt="Dabloo Studios" className="footer-logo" />
+          </a>
+          <br />
           © 2026 Dabloo Studios. All rights reserved.
         </div>
         
