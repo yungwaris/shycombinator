@@ -324,7 +324,7 @@ export default function TruthSerum() {
         .syringe-img {
           position: absolute;
           right: -150px;
-          top: 80px;
+          top: 120px;
           width: 100px;
           height: auto;
           pointer-events: none;
@@ -370,7 +370,7 @@ export default function TruthSerum() {
           display: flex;
           flex-direction: column;
           justify-content: flex-end;
-          align-items: center; /* Centers elements inside */
+          align-items: center;
           position: relative;
           margin-top: 60px; 
           min-height: 250px;
@@ -381,7 +381,7 @@ export default function TruthSerum() {
           align-items: center;
           justify-content: center;
           gap: 16px;
-          margin-bottom: 20px; /* Space between icons and cursor */
+          margin-bottom: 20px;
           position: relative;
           z-index: 10;
         }
@@ -401,10 +401,10 @@ export default function TruthSerum() {
         .social-icon svg { width: 22px; height: 22px; fill: white; }
 
         .cursor-img {
-          width: 160px; /* Base size */
+          width: 160px; 
           height: auto;
           display: block;
-          margin-bottom: 20px; /* Space between cursor and footer */
+          margin-bottom: 20px;
           position: relative;
           z-index: 3;
         }
@@ -450,39 +450,67 @@ export default function TruthSerum() {
 
         /* ── RESPONSIVE ── */
         @media (max-width: 900px) {
+          .input-row { flex-direction: column; align-items: center; }
+
           .floating-label {
             position: relative;
             left: 0 !important;
             right: 0 !important;
             top: 0 !important;
             transform: none !important;
-            flex-direction: row !important;
-            margin-bottom: 8px;
-            justify-content: flex-start;
+            width: 100%;
+            margin-top: 10px;
           }
-          .label-right svg, .label-left svg { 
+          
+          /* ── EMAIL LABEL (Aligns Right) ── */
+          .label-right {
+            flex-direction: row !important; 
+            justify-content: flex-end; 
+          }
+          .label-right svg { 
             display: block; 
             width: 24px; 
             height: auto; 
+            transform: rotate(-45deg); 
+            margin-right: 8px;
+            margin-top: -12px;
           } 
+          
+          /* ── URL LABEL (Aligns Left) ── */
           .label-left {
-            flex-direction: row !important; 
+            flex-direction: row-reverse !important; 
+            justify-content: flex-end; 
           }
-          .input-row { flex-direction: column; align-items: flex-start; }
+          .label-left span { 
+            text-align: left !important; 
+          }
+          .label-left svg { 
+            display: block; 
+            width: 24px; 
+            height: auto; 
+            transform: rotate(80deg); 
+            margin-left: 8px;
+            margin-top: -12px;
+          }
+
+          /* ── SYRINGE ── */
           .syringe-img { 
             display: block; 
-            width: 60px; 
-            right: 0; 
-            top: -20px; 
-            z-index: -1; 
+            width: 70px; 
+            right: -10px; 
+            top: auto; 
+            bottom: 55px; 
+            z-index: 10; 
+            transform: rotate(-15deg);
           } 
+          
           .headline { font-size: 20px; }
           .nav { padding: 24px 20px 0; }
           .nav-logo, .truth-logo { height: 40px; }
         }
 
         @media (min-width: 768px) {
-          .cursor-img { width: 220px; } /* Scales up for desktop */
+          .cursor-img { width: 220px; }
           .fire-img { width: 180px; left: 15%; }
         }
       `}</style>
@@ -639,7 +667,7 @@ export default function TruthSerum() {
         <img src="/cursor.png" alt="" className="cursor-img" />
         
         <div className="footer">
-          <a href="https://dabloo.in" target="_blank" rel="noopener noreferrer" className="inline-block hover:scale-105 transition-transform duration-150">
+          <a href="https://dabloo.in" target="_blank" rel="noopener noreferrer" className="inline-block">
             <img src="/dabloo_logo.png" alt="Dabloo Studios" className="footer-logo" />
           </a>
           <br />
