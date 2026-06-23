@@ -300,24 +300,26 @@ export default function TruthSerum() {
           flex-direction: row-reverse; 
         }
 
-        /* ── BUTTON ── */
-        .submit-btn {
+        /* ── BUTTONS ── */
+        .submit-btn, .action-btn {
           background: none;
           border: none;
           cursor: pointer;
           margin-top: 10px;
           transition: transform 0.1s;
+          display: inline-block;
         }
-        .submit-btn:hover:not(:disabled) {
+        .submit-btn:hover:not(:disabled), .action-btn:hover {
           transform: scale(1.05);
         }
         .submit-btn:disabled {
           opacity: 0.5;
           cursor: not-allowed;
         }
-        .submit-btn img {
+        .submit-btn img, .action-btn img {
           height: 40px;
           width: auto;
+          display: block;
         }
 
         /* ── GRAPHICS ── */
@@ -499,7 +501,7 @@ export default function TruthSerum() {
             width: 70px; 
             right: -10px; 
             top: auto; 
-            bottom: 25px; /* Moved further down */
+            bottom: 25px; 
             z-index: 10; 
             transform: rotate(-15deg);
           } 
@@ -626,6 +628,16 @@ export default function TruthSerum() {
               <img src="/dosage.png" alt="Dosage of Truth Serum" className="dosage-img" />
               <p className="whitespace-pre-wrap">{results}</p>
             </div>
+
+            {/* Book A Call CTA Button Area */}
+            <a 
+              href="https://cal.com/shycombinator/15min/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="action-btn mt-6"
+            >
+              <img src="/bookacall.png" alt="Book a Call" />
+            </a>
 
             <div className="quote-section">
               <p className="quote-text">
