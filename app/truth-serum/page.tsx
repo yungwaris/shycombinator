@@ -499,7 +499,7 @@ export default function TruthSerum() {
             width: 70px; 
             right: -10px; 
             top: auto; 
-            bottom: 55px; 
+            bottom: 25px; /* Moved further down */
             z-index: 10; 
             transform: rotate(-15deg);
           } 
