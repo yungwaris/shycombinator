@@ -320,9 +320,12 @@ export default function Home() {
           </div>
           
           <div className="footer">
+          <a href="https://dabloo.in" target="_blank" rel="noopener noreferrer" className="inline-block">
             <img src="/dabloo_logo.png" alt="Dabloo Studios" className="footer-logo" />
-            © 2026 Dabloo Studios. All rights reserved.
-          </div>
+          </a>
+          <br />
+          © 2026 Dabloo Studios. All rights reserved.
+        </div>
         </div>
 
       </div>
