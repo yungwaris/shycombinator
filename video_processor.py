@@ -161,7 +161,7 @@ def _compress_video(raw_path: str, out_path: str) -> bool:
     cmd = [
         "ffmpeg", "-y",
         "-i", raw_path,
-        "-t", "30",
+        "-t", "45",
         "-r", "5",
         "-vf", "scale=-2:144",
         "-c:v", "libx264",

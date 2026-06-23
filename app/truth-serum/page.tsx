@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { AlertCircle } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react";
 
 const SUPPORTED_PLATFORMS = ["x.com", "twitter.com", "linkedin.com"];
 
@@ -690,6 +691,7 @@ export default function TruthSerum() {
         <img src="/fire.png" alt="" className="fire-img" />
       </div>
 
+      <Analytics />
     </main>
   );
 }
