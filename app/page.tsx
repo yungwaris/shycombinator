@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+// 1. ADD THE VERCEL ANALYTICS IMPORT
+import { Analytics } from "@vercel/analytics/react";
 
 export default function Home() {
 
@@ -320,15 +322,18 @@ export default function Home() {
           </div>
           
           <div className="footer">
-          <a href="https://dabloo.in" target="_blank" rel="noopener noreferrer" className="inline-block">
-            <img src="/dabloo_logo.png" alt="Dabloo Studios" className="footer-logo" />
-          </a>
-          <br />
-          © 2026 Dabloo Studios. All rights reserved.
-        </div>
+            <a href="https://dabloo.in" target="_blank" rel="noopener noreferrer" className="inline-block">
+              <img src="/dabloo_logo.png" alt="Dabloo Studios" className="footer-logo" />
+            </a>
+            <br />
+            © 2026 Dabloo Studios. All rights reserved.
+          </div>
         </div>
 
       </div>
+
+      {/* 2. TRACKER ACTIVE AND RUNNING */}
+      <Analytics />
     </main>
   );
 }
