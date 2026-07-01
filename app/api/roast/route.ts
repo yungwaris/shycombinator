@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+export const maxDuration = 60; // seconds, adjust to your plan's max
+
 const MODAL_WEBHOOK_URL =
   "https://yungwaris--shycombinator-director-process-video.modal.run";
 
