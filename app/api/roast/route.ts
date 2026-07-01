@@ -9,14 +9,19 @@ const SHEET_ID = "18Dn6NeJEYcqom9NcQKRQCZBCHmehzU6ukGo8o_NLGLw";
 // Add every origin that needs to call this route. Framer's published
 // site and its live-editor preview use different origins, so list both
 // if you want to test from the editor as well as the live page.
+// IMPORTANT: no trailing slashes here — browsers never send a trailing
+// slash in the Origin header, so a slashed entry will never match.
 const ALLOWED_ORIGINS = [
-  "https://smiling-technology-410249.framer.app/", // replace with your published Framer domain
-  "https://smiling-technology-410249.framer.app",       // without trailing slash (editor preview)
-  "https://www.shycombinator.co/",   // replace if you have a custom domain, or delete this line
+  "https://smiling-technology-410249.framer.app",
+  "https://www.shycombinator.co",
 ];
 
 function corsHeadersFor(origin: string | null) {
-  const allowed = origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  // Only echo back the origin if it's actually in the allow-list.
+  // Falling back to a hardcoded origin when there's no match sends
+  // an Access-Control-Allow-Origin that doesn't match the real
+  // Origin header, which the browser will reject.
+  const allowed = origin && ALLOWED_ORIGINS.includes(origin) ? origin : "";
   return {
     "Access-Control-Allow-Origin": allowed,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -145,4 +150,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
