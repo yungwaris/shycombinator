@@ -31,6 +31,7 @@ function corsHeadersFor(origin: string | null) {
   };
 }
 
+// Handle preflight OPTIONS request
 export async function OPTIONS(req: NextRequest) {
   const origin = req.headers.get("origin");
   return new Response(null, { status: 204, headers: corsHeadersFor(origin) });
@@ -56,9 +57,11 @@ async function saveLeadToSheets(email: string, url: string) {
     const b64 = (obj: object) =>
       Buffer.from(JSON.stringify(obj))
         .toString("base64")
-        .replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+        .replace(/=/g, "")
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_");
 
-    const header  = b64({ alg: "RS256", typ: "JWT" });
+    const header = b64({ alg: "RS256", typ: "JWT" });
     const payload = b64(claim);
     const unsigned = `${header}.${payload}`;
 
@@ -69,19 +72,24 @@ async function saveLeadToSheets(email: string, url: string) {
 
     const keyDer = Buffer.from(pemBody, "base64");
     const cryptoKey = await crypto.subtle.importKey(
-      "pkcs8", keyDer,
+      "pkcs8",
+      keyDer,
       { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
-      false, ["sign"]
+      false,
+      ["sign"]
     );
 
     const sig = await crypto.subtle.sign(
-      "RSASSA-PKCS1-v1_5", cryptoKey,
+      "RSASSA-PKCS1-v1_5",
+      cryptoKey,
       Buffer.from(unsigned)
     );
 
     const sigB64 = Buffer.from(sig)
       .toString("base64")
-      .replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+      .replace(/=/g, "")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_");
 
     const jwt = `${unsigned}.${sigB64}`;
 
@@ -140,11 +148,13 @@ export async function POST(req: NextRequest) {
     }
 
     if (data.error) {
-      return NextResponse.json({ error: data.error }, { status: 400, headers });
+      return NextResponse.json(
+        { error: data.error },
+        { status: 400, headers }
+      );
     }
 
     return NextResponse.json(data, { headers });
-
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to connect to the processing engine." },
