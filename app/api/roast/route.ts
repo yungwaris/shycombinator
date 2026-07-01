@@ -5,6 +5,31 @@ const MODAL_WEBHOOK_URL =
 
 const SHEET_ID = "18Dn6NeJEYcqom9NcQKRQCZBCHmehzU6ukGo8o_NLGLw";
 
+// ── CORS ─────────────────────────────────────────────────────────
+// Add every origin that needs to call this route. Framer's published
+// site and its live-editor preview use different origins, so list both
+// if you want to test from the editor as well as the live page.
+const ALLOWED_ORIGINS = [
+  "https://smiling-technology-410249.framer.app/", // replace with your published Framer domain
+  "https://smiling-technology-410249.framer.app",       // without trailing slash (editor preview)
+  "https://www.shycombinator.co/",   // replace if you have a custom domain, or delete this line
+];
+
+function corsHeadersFor(origin: string | null) {
+  const allowed = origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    "Access-Control-Allow-Origin": allowed,
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+}
+
+export async function OPTIONS(req: NextRequest) {
+  const origin = req.headers.get("origin");
+  return new Response(null, { status: 204, headers: corsHeadersFor(origin) });
+}
+// ─────────────────────────────────────────────────────────────────
+
 async function saveLeadToSheets(email: string, url: string) {
   const saJson = process.env.GOOGLE_SERVICE_ACCOUNT;
   if (!saJson) return;
@@ -82,6 +107,9 @@ async function saveLeadToSheets(email: string, url: string) {
 }
 
 export async function POST(req: NextRequest) {
+  const origin = req.headers.get("origin");
+  const headers = corsHeadersFor(origin);
+
   try {
     const body = await req.json();
     const { email, url } = body;
@@ -105,15 +133,16 @@ export async function POST(req: NextRequest) {
     }
 
     if (data.error) {
-      return NextResponse.json({ error: data.error }, { status: 400 });
+      return NextResponse.json({ error: data.error }, { status: 400, headers });
     }
 
-    return NextResponse.json(data);
+    return NextResponse.json(data, { headers });
 
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to connect to the processing engine." },
-      { status: 500 }
+      { status: 500, headers }
     );
   }
 }
+
