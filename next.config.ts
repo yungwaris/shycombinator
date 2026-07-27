@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/:path*',
-        destination: 'https://smiling-technology-410249.framer.app/:path*', 
+        destination: 'https://shycombinator.framer.website/:path*', 
       },
     ];
   },
