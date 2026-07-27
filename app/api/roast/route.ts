@@ -14,7 +14,7 @@ const SHEET_ID = "18Dn6NeJEYcqom9NcQKRQCZBCHmehzU6ukGo8o_NLGLw";
 // IMPORTANT: no trailing slashes here — browsers never send a trailing
 // slash in the Origin header, so a slashed entry will never match.
 const ALLOWED_ORIGINS = [
-  "https://smiling-technology-410249.framer.app",
+  "https://shycombinator.framer.website",
   "https://www.shycombinator.co",
 ];
 
