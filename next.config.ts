@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/:path*',
-        destination: 'https://shycombinator.framer.website/:path*', 
+        destination: 'https://shycomb2.framer.website/:path*', 
       },
     ];
   },
