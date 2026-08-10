@@ -40,8 +40,8 @@ OUTPUT RULES:
 4. Silicon Valley/YC LORE: Drop hyper-specific references (Paul Graham essays, Vercel deployments, SOC2 compliance, Linear clones, etc.).
 5. VOICE: Tired founder in a Slack channel. Use a mix of lowercase and casual grammar. Punchy. A few emojis are fine. Never use em dashes, use commas or periods instead.
 6. QUOTES: If you need to quote something on screen or in the video, use single quotes ('like this'), never double quotes.
-7. EMPHASIS: If you want to emphasize a word, do not use markdown asterisks or underscores. Instead convert the word itself into unicode bold or italic characters (e.g. 𝗯𝗼𝗹𝗱 or 𝘪𝘵𝘢𝘭𝘪𝘤) so it renders as styled text in plain output. Use this sparingly, one or two words max per roast.
-8. FORMAT: ONE single, cohesive, flowing paragraph. No bullet points, no lists, no timestamps, no JSON, no markdown formatting, no asterisks or underscores anywhere in the output, plain text only.
+7. EMPHASIS: If you want to emphasize a word, wrap it in single asterisks like *this*. Use this sparingly, one or two words max per roast. Do not use double asterisks.
+8. FORMAT: ONE single, cohesive, flowing paragraph. No bullet points, no lists, no timestamps, no JSON, plain text only.
 9. LENGTH: Strictly under 200 words.
 """
 # ---------------------------------------------------------------------------
@@ -73,6 +73,79 @@ def _record_successful_submission(keys: list[str]) -> None:
     now = time.time()
     for key in keys:
         _rate_limit_store[key] = now
+
+
+# ---------------------------------------------------------------------------
+# Output sanitizer
+# Prompt-only instructions can't reliably force literal unicode glyphs or
+# consistent quote styles out of an LLM, so we enforce it deterministically
+# here instead, after generation.
+# ---------------------------------------------------------------------------
+
+# Unicode italic map (Mathematical Alphanumeric Symbols block)
+_ITALIC_MAP: dict[str, str] = {}
+for _i, _c in enumerate("ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
+    _ITALIC_MAP[_c] = chr(0x1D434 + _i)
+for _i, _c in enumerate("abcdefghijklmnopqrstuvwxyz"):
+    _ITALIC_MAP[_c] = chr(0x1D44E + _i)
+_ITALIC_MAP["h"] = "\u210E"  # math italic h collides with Planck symbol, has its own codepoint
+
+# Unicode bold map
+_BOLD_MAP: dict[str, str] = {}
+for _i, _c in enumerate("ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
+    _BOLD_MAP[_c] = chr(0x1D400 + _i)
+for _i, _c in enumerate("abcdefghijklmnopqrstuvwxyz"):
+    _BOLD_MAP[_c] = chr(0x1D41A + _i)
+for _i, _c in enumerate("0123456789"):
+    _BOLD_MAP[_c] = chr(0x1D7CE + _i)
+
+
+def _to_unicode(word: str, mapping: dict) -> str:
+    return "".join(mapping.get(ch, ch) for ch in word)
+
+
+def sanitize_output(text: str) -> str:
+    import re
+
+    if not text:
+        return text
+
+    # 1. Bold (**word**) -> unicode bold. Must run before italic, ** contains *.
+    text = re.sub(
+        r"\*\*(.+?)\*\*",
+        lambda m: _to_unicode(m.group(1), _BOLD_MAP),
+        text,
+    )
+
+    # 2. Italic (*word*) -> unicode italic
+    text = re.sub(
+        r"\*(.+?)\*",
+        lambda m: _to_unicode(m.group(1), _ITALIC_MAP),
+        text,
+    )
+
+    # 3. Underscore emphasis (_word_) -> unicode italic, just in case
+    text = re.sub(
+        r"_(.+?)_",
+        lambda m: _to_unicode(m.group(1), _ITALIC_MAP),
+        text,
+    )
+
+    # 4. Strip any leftover stray asterisks/underscores the model added
+    text = re.sub(r"[*_]", "", text)
+
+    # 5. Normalize all quote variants (curly double, straight double, curly single) -> straight single
+    text = text.replace("\u201c", "'").replace("\u201d", "'")
+    text = text.replace("\u2018", "'").replace("\u2019", "'")
+    text = text.replace('"', "'")
+
+    # 6. Kill em dashes -> comma (reads more like casual speech than a hard period mid-sentence)
+    text = text.replace("\u2014", ",").replace("--", ",")
+
+    # 7. Collapse any double spaces left behind by the above swaps
+    text = re.sub(r"  +", " ", text)
+
+    return text.strip()
 
 
 # ---------------------------------------------------------------------------
@@ -194,7 +267,6 @@ def process_video(request: dict):
     from google import genai
     import re
 
-    roast_text = re.sub(r'[*_]', '', roast_text)
     video_url = request.get("url", "").strip()
     email = request.get("email", "").strip().lower()
     ip = request.get("_ip", "unknown").strip()  # passed from Next.js API route
@@ -288,6 +360,7 @@ def process_video(request: dict):
                     )
                     critique = response.text.strip() if response.text else None
                     if critique:
+                        critique = sanitize_output(critique)
                         return {"success": True, "critique": critique, "model_used": model}
                     last_error = f"{model} returned empty response"
                     break
