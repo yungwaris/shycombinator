@@ -110,24 +110,24 @@ def sanitize_output(text: str) -> str:
     if not text:
         return text
 
-    # 1. Bold (**word**) -> unicode bold. Must run before italic, ** contains *.
+    # 1. Bold (**word**) -> unicode bold. Must run before single-asterisk pass, ** contains *.
     text = re.sub(
         r"\*\*(.+?)\*\*",
         lambda m: _to_unicode(m.group(1), _BOLD_MAP),
         text,
     )
 
-    # 2. Italic (*word*) -> unicode italic
+    # 2. Italic (*word*) -> also unicode bold (bolding all emphasized text, italic included)
     text = re.sub(
         r"\*(.+?)\*",
-        lambda m: _to_unicode(m.group(1), _ITALIC_MAP),
+        lambda m: _to_unicode(m.group(1), _BOLD_MAP),
         text,
     )
 
-    # 3. Underscore emphasis (_word_) -> unicode italic, just in case
+    # 3. Underscore emphasis (_word_) -> unicode bold, just in case
     text = re.sub(
         r"_(.+?)_",
-        lambda m: _to_unicode(m.group(1), _ITALIC_MAP),
+        lambda m: _to_unicode(m.group(1), _BOLD_MAP),
         text,
     )
 
@@ -139,8 +139,8 @@ def sanitize_output(text: str) -> str:
     text = text.replace("\u2018", "'").replace("\u2019", "'")
     text = text.replace('"', "'")
 
-    # 6. Kill em dashes -> comma (reads more like casual speech than a hard period mid-sentence)
-    text = text.replace("\u2014", ",").replace("--", ",")
+    # 6. Kill em dashes AND en dashes -> comma (reads more like casual speech than a hard period mid-sentence)
+    text = text.replace("\u2014", ",").replace("\u2013", ",").replace("--", ",")
 
     # 7. Collapse any double spaces left behind by the above swaps
     text = re.sub(r"  +", " ", text)
