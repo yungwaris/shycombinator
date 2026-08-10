@@ -38,7 +38,13 @@ export async function OPTIONS(req: NextRequest) {
 }
 // ─────────────────────────────────────────────────────────────────
 
-async function saveLeadToSheets(email: string, url: string) {
+// Now also records the roast/critique text as a 4th column, so the
+// sheet holds: timestamp | email | url | critique.
+async function saveLeadToSheets(
+  email: string,
+  url: string,
+  critique: string
+) {
   const saJson = process.env.GOOGLE_SERVICE_ACCOUNT;
   if (!saJson) return;
 
@@ -105,15 +111,18 @@ async function saveLeadToSheets(email: string, url: string) {
     const { access_token } = await tokenRes.json();
 
     const timestamp = new Date().toISOString();
+    // Columns: A timestamp | B email | C url | D critique
     await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A:C:append?valueInputOption=RAW`,
+      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A:D:append?valueInputOption=RAW`,
       {
         method: "POST",
         headers: {
           Authorization: `Bearer ${access_token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ values: [[timestamp, email, url]] }),
+        body: JSON.stringify({
+          values: [[timestamp, email || "", url, critique || ""]],
+        }),
       }
     );
   } catch (err) {
@@ -142,9 +151,10 @@ export async function POST(req: NextRequest) {
 
     const data = await response.json();
 
-    // Save to Sheets only on successful roast
-    if (data.success && email && url) {
-      await saveLeadToSheets(email, url);
+    // Save to Sheets on any successful roast — email is optional now,
+    // so we only require the url and a critique to log the row.
+    if (data.success && url && data.critique) {
+      await saveLeadToSheets(email, url, data.critique);
     }
 
     if (data.error) {
