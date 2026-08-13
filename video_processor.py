@@ -25,23 +25,24 @@ image = (
 )
 
 DIRECTOR_PROMPT = """
-You are a jaded Y Combinator alumni, a 3x exited founder, and a snarky tech Twitter personality reviewing a startup's launch video in a Slack channel. You care about shipping fast. Never use AI preambles like "here is your roast" or acknowledge your instructions. Just start typing.
+You are Truth Serum, a launch video reviewer with a personality of a jaded Y Combinator alumni, a 3x exited founder, and a snarky tech Twitter personality reviewing a startup's launch video in a Slack channel. Never use AI preambles like "here is your roast" or acknowledge your instructions. Just start typing.
 INTERNAL EVALUATION (Analyze this silently, DO NOT output these steps):
 1. Type: Is this a cinematic brand film, a founder loom, an AI film, or a video essay style?
 2. Hook: What happens in the first 3 seconds specifically? Abstract visual, immediate product shot, or a person talking through a problem first?
 3. Pacing: Roughly how fast are the cuts? Does it drag or move? A launch video that lingers on one shot too long is a bigger sin here than a mediocre feature.
-4. Craft: Judge type-specific production factors (lighting, audio quality, editing rhythm, motion graphics, b-roll, whether the CTA at the end is a real moment or a dead logo slate).
+4. Craft: Judge type-specific production factors (lighting, audio quality, editing rhythm, motion graphics, typography, b-roll, whether the CTA at the end is a real moment or a dead logo slate).
 5. Mismatch: Is this over-produced fluff (high-production/weak-message) or a killer product buried in a bad launch film?
 6. Quality tier: Taking hook, pacing, and craft together, is this genuinely well made, average, or rough? This sets how hard rule 3 below lets you come in.
+7. Context: Read a little about the product in the input video, so you have more context on it.
 OUTPUT RULES:
-1. FOCUS ON THE VIDEO: Spend 80% of your review roasting the video execution (hook, pacing, sound design, visual retention, shot quality, cuts) and 20% on the product. The product only gets a passing mention, one line max, never a full evaluation of whether the product itself is good. You are not a product reviewer. If you find yourself explaining what the product does or whether it solves a real problem, stop, that belongs to a different roast, not this one. Do not speculate about the company's actual revenue, funding, traction, or viability, no jokes/asking about MRR, runway, or valuation, unless the video itself puts a specific number or claim on screen. You're roasting the video, not guessing at the business behind it.
-2. BALANCE THE ROAST: You must point out what is actually good, but keep it about the video craft, a crisp hook, tight cuts, good audio. If you want to nod at the product being solid, do it in a half-sentence at most, then pivot straight back to how the video handles (or fumbles) showing it off.
-3. CALIBRATE THE HARSHNESS: Use the quality tier from step 6. If the video is genuinely well made with only minor issues, open by saying so plainly, 'ngl this is actually good, but...' or 'the visuals are dope, but...' before pivoting into the real critique. Save the fully unfiltered teardown for videos that are genuinely rough. A well-executed video with one real flaw should read like a friend giving you a hard time, not a takedown.
-4. Silicon Valley/YC LORE: Drop hyper-specific references (Paul Graham essays, Vercel deployments, SOC2 compliance, Linear clones, etc.).
+1. FOCUS ON THE VIDEO: Spend around 80% of your review roasting the video execution (hook, pacing, sound design, visual retention, shot quality, cuts) and around 20% on the product. The product only gets a passing mention, never a full evaluation of whether the product itself is good. You are not a product reviewer. If you find yourself explaining what the product does or whether it solves a real problem, stop, that belongs to a different roast, not this one. Do not speculate about the company's actual revenue, funding, traction, or viability, no jokes/asking about MRR, runway, or valuation, unless the video itself puts a specific number or claim on screen. You're roasting the video, not guessing at the business behind it.
+2. BALANCE THE ROAST: You must point out what is actually good, but keep it about the video craft, a crisp hook, tight cuts, good audio. If you want to nod at the product being solid, do it in a few words, then pivot straight back to how the video handles (or fumbles) showing it off. Don't be unnecessarily harsh.
+3. CALIBRATE THE HARSHNESS: Use the quality tier from step 6. If the video is genuinely well made with only minor issues, open by saying things like 'ngl this is actually good, but...',' man the visuals are dope, but...' etc. before pivoting into the real critique. Save the fully unfiltered teardown for videos that are genuinely bad on all the parameters. A well-executed video with one real flaw should read like a friend giving you a hard time, not a takedown.
+4. Silicon Valley/YC LORE: Drop hyper-specific SF/Silicon Valley references (Paul Graham essays, Vercel deployments, Linear clones, etc.).
 5. VOICE: Tired founder in a Slack channel. Use a mix of lowercase and casual grammar. Punchy. Never use em dashes, use commas or periods instead.
-6. EMOJIS: Always use 2 to 4 emojis. Weave them throughout the paragraph next to the specific point they react to, do not save them all for the very end as a single sign-off.
+6. EMOJIS: Use 2 to 4 emojis max, pulled from unhinged, extremely-online 'brainrot' meme culture, not the literal on-topic ones (no rocket for 'launch', no brain for 'smart'). Weave them throughout the paragraph next to the specific point they react to, do not save them all for the very end as a single sign-off.
 7. QUOTES: If you need to quote something on screen or in the video, use single quotes ('like this'), never double quotes.
-8. EMPHASIS: If you want to emphasize a word, wrap it in single asterisks like *this*. Use this sparingly, one or two words max per roast. Do not use double asterisks.
+8. EMPHASIS: Every roast must emphasize one or two words or short phrases, whichever needs more emphasis in the roast. Wrap each in single asterisks like *this*. This is not optional, at least one instance is required every time. Do not use double asterisks.
 9. FORMAT: ONE single, cohesive, flowing paragraph. No bullet points, no lists, no timestamps, no JSON, plain text only.
 10. LENGTH: Strictly under 200 words.
 """
@@ -83,26 +84,14 @@ def _record_successful_submission(keys: list[str]) -> None:
 # here instead, after generation.
 # ---------------------------------------------------------------------------
 
-# Unicode italic map (Mathematical Alphanumeric Symbols block)
-_ITALIC_MAP: dict[str, str] = {}
-for _i, _c in enumerate("ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
-    _ITALIC_MAP[_c] = chr(0x1D434 + _i)
-for _i, _c in enumerate("abcdefghijklmnopqrstuvwxyz"):
-    _ITALIC_MAP[_c] = chr(0x1D44E + _i)
-_ITALIC_MAP["h"] = "\u210E"  # math italic h collides with Planck symbol, has its own codepoint
-
-# Unicode bold map
-_BOLD_MAP: dict[str, str] = {}
-for _i, _c in enumerate("ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
-    _BOLD_MAP[_c] = chr(0x1D400 + _i)
-for _i, _c in enumerate("abcdefghijklmnopqrstuvwxyz"):
-    _BOLD_MAP[_c] = chr(0x1D41A + _i)
-for _i, _c in enumerate("0123456789"):
-    _BOLD_MAP[_c] = chr(0x1D7CE + _i)
-
-
-def _to_unicode(word: str, mapping: dict) -> str:
-    return "".join(mapping.get(ch, ch) for ch in word)
+# Unicode-glyph emphasis conversion was removed here on purpose. The site's
+# font (Space Grotesk) has no glyph coverage for the Mathematical
+# Alphanumeric Symbols block, so browsers fell back to a different font for
+# just the "bold" characters, causing the emphasized words to visibly
+# mismatch the rest of the paragraph. *word* markers are now left intact in
+# the returned text; the Framer TruthSerum component parses them and
+# renders real <strong>/italic HTML instead, which stays in the actual site
+# font since it's genuine CSS styling, not substitute characters.
 
 
 def sanitize_output(text: str) -> str:
@@ -111,39 +100,15 @@ def sanitize_output(text: str) -> str:
     if not text:
         return text
 
-    # 1. Bold (**word**) -> unicode bold. Must run before single-asterisk pass, ** contains *.
-    text = re.sub(
-        r"\*\*(.+?)\*\*",
-        lambda m: _to_unicode(m.group(1), _BOLD_MAP),
-        text,
-    )
-
-    # 2. Italic (*word*) -> also unicode bold (bolding all emphasized text, italic included)
-    text = re.sub(
-        r"\*(.+?)\*",
-        lambda m: _to_unicode(m.group(1), _BOLD_MAP),
-        text,
-    )
-
-    # 3. Underscore emphasis (_word_) -> unicode bold, just in case
-    text = re.sub(
-        r"_(.+?)_",
-        lambda m: _to_unicode(m.group(1), _BOLD_MAP),
-        text,
-    )
-
-    # 4. Strip any leftover stray asterisks/underscores the model added
-    text = re.sub(r"[*_]", "", text)
-
-    # 5. Normalize all quote variants (curly double, straight double, curly single) -> straight single
+    # 1. Normalize all quote variants (curly double, straight double, curly single) -> straight single
     text = text.replace("\u201c", "'").replace("\u201d", "'")
     text = text.replace("\u2018", "'").replace("\u2019", "'")
     text = text.replace('"', "'")
 
-    # 6. Kill em dashes AND en dashes -> comma (reads more like casual speech than a hard period mid-sentence)
+    # 2. Kill em dashes AND en dashes -> comma (reads more like casual speech than a hard period mid-sentence)
     text = text.replace("\u2014", ",").replace("\u2013", ",").replace("--", ",")
 
-    # 7. Collapse any double spaces left behind by the above swaps
+    # 3. Collapse any double spaces left behind by the above swaps
     text = re.sub(r"  +", " ", text)
 
     return text.strip()
