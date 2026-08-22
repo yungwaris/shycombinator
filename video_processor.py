@@ -44,7 +44,7 @@ OUTPUT RULES:
 7. QUOTES: If you need to quote something on screen or in the video, use single quotes ('like this'), never double quotes.
 8. EMPHASIS: Every roast must emphasize one or two words or short phrases, whichever needs more emphasis in the roast. Wrap each in single asterisks like *this*. This is not optional, at least one instance is required every time. Do not use double asterisks.
 9. FORMAT: ONE single, cohesive, flowing paragraph. No bullet points, no lists, no timestamps, no JSON, plain text only.
-10. LENGTH: Strictly under 200 words.
+10. LENGTH: Strictly under 100 words.
 """
 # ---------------------------------------------------------------------------
 # In-memory rate limiter
